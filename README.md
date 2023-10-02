@@ -1,1 +1,2 @@
-# learnpythoneasyway
+# LEARN PYTHON EASY WAY
+This repository talks about Basics, DS and Algorithms, Notes etc...
