@@ -1,0 +1,2 @@
+python -V
+pip install https://opensource.com/sites/default/files/gated-content/cheat_sheet_pip.pdf https://www.geeksforgeeks.org/12-pip-commands-for-python-developers/
