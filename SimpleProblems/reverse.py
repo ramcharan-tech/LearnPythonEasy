@@ -1,7 +1,7 @@
 x=input()
 
 def palindrome(x):
-    if x == reverse(x):
+    if x == x[::-1]:
       print("Yes! Its a plaindorme")
     else:
         print("No! Its not a plaindorme")
