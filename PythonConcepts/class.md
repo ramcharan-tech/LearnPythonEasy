@@ -127,3 +127,5 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+### Notes: 
+- use @classmethod when you need to work with the class itself (like modifying class variables), and use @staticmethod when you just need a utility function within the class without accessing or modifying class or instance variables.
