@@ -74,3 +74,43 @@ print("bruteforce : ",findMinLoss_brute_force(N, A))
 #     N = int(input().strip())
 #     A = list(map(int, input().strip().split()))
 #     print(find_min_loss(tuple(A), N))
+
+""" Question
+Cold Drink 
+
+There are N cold drinks in a row, with integers denoting the cost of each cold drink respectively.
+Each day you can sell the first or the last cold drink in the row.
+Initial loss from the cold drinks is A1, A2, A3,..., An.
+On the Kth day, the loss from the ith cold drink is K * A[i].
+Calculate the minimum loss from all the cold drinks.
+ 
+Function Description
+In the provided code snippet, implement the provided findMinLoss(...) method to calculate the minimum loss from all the cold drinks. You can write your code in the space below the phrase “WRITE YOUR LOGIC HERE”.
+
+There will be multiple test cases running so the Input and Output should match exactly as provided. The base Output variable result is set to a default value of -404 which can be modified. Additionally, you can add or remove these output variables.
+
+Input Format
+The first line contains an integer N, denoting the number of cold drinks.
+The second line contains N space-separated integers, denoting the elements of array A.
+ 
+Sample Input
+
+3                 -- denotes N
+10 20 30     -- denotes A
+
+Constraints
+1 <= N <= 13
+1 <= Ai <= 1000
+
+Output Format
+The output contains a single integer denoting the minimum loss from all the cold drinks.
+
+Sample Output
+100
+ 
+Explanation
+On the 1st day, we sell the last cold drink, so the first day's loss is 30 * 1 = 30.
+On the 2nd day, we sell the last cold drink, so the second day's loss is 20 * 2 = 40.
+On the 3rd day, we sell the last cold drink, so the loss on the third day is 10 * 3 = 30.
+The total loss would be 30 + 40 + 30 = 100.
+Hence, the output is 100."""
