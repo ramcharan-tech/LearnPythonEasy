@@ -133,3 +133,6 @@ https://manralai.medium.com/data-structures-algorithms-cheat-sheet-in-python-e87
 https://github.com/okeeffed/cheat-sheets/blob/master/Python-Data-Structures.md#data-structures-with-python
 https://manralai.medium.com/only-15-patterns-to-master-any-coding-interview-570a3afc9042
 https://manralai.medium.com/list/python-data-structure-algorithms-for-data-roles-c57db1cd8410
+https://blog.algomaster.io/p/15-leetcode-patterns
+https://blog.algomaster.io/p/20-patterns-to-master-dynamic-programming
+https://github.com/ashishps1
