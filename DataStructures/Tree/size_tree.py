@@ -27,7 +27,7 @@ class Tree:
 size = lambda r : 0 if not r else size(r.left)+1+size(r.right)
 tmax = lambda r : -math.inf if not r  else max(tmax(r.left),r.data,tmax(r.right))
 tsearch = lambda r,k : False if not r  else any([tsearch(r.left,k),r.data==k,tsearch(r.right,k)])
-
+h = lambda r: 0 if not r else  max(h(r.left),h(r.right))+1
 
 tree = Tree()
 r = tree.insert(10,None)
@@ -39,12 +39,15 @@ print(tree.size(r))
 print(size(r))
 print(tmax(r))
 print(tsearch(r,10))
+print(h(r))
 
-# gpt code #TODo
+# gpt code #TODO
 search = (lambda k: (lambda r: False if not r else any([t(r.left), r.data == k, t(r.right)]))) 
 t = lambda r: search(r)
 root = Node(5, Node(3, Node(1), Node(4)), Node(7, Node(6), Node(8)))
 srch = search(10)
 print(srch(r))
+
+#TODO : do preorder tranversal iterative
 
         

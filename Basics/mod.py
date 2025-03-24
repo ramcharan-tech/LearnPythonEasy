@@ -3,3 +3,5 @@ a =["abc"]
 b = a[0]
 a[0]="ab"
 print(b)
+z = float('-inf')
+print(z)
