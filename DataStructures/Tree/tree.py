@@ -1,4 +1,7 @@
 from collections import deque
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 # Function to add an edge between vertices x and y
 def addEdge(x, y, adj):
@@ -34,7 +37,7 @@ def printChildren(Root, adj):
         print("{}->".format(node)),
         for cur in adj[node]:
             if vis[cur] == 0:
-                print(cur),
+                print(cur)
                 q.append(cur)
         print()
 
@@ -56,31 +59,35 @@ def printDegrees(Root, adj):
         else:
             print(len(adj[i]) - 1)
 
-# Driver code
-N = 7
-Root = 1
-# Adjacency list to store the tree
-adj = [[] for _ in range(N + 1)]
-# Creating the tree
-addEdge(1, 2, adj)
-addEdge(1, 3, adj)
-addEdge(1, 4, adj)
-addEdge(2, 5, adj)
-addEdge(2, 6, adj)
-addEdge(4, 7, adj)
-print ("adjacent list: ",adj)
-# Printing the parents of each node
-print("The parents of each node are:")
-printParents(Root, adj, 0)
 
-# Printing the children of each node
-print("The children of each node are:")
-printChildren(Root, adj)
 
-# Printing the leaf nodes in the tree
-print("The leaf nodes of the tree are:")
-printLeafNodes(Root, adj)
+if __name__ == "__main__":
+    # Driver code
+    N = 7
+    Root = 1
+    # Adjacency list to store the tree
+    adj = [[] for _ in range(N+1)]
+    # Creating the tree
+    addEdge(1, 2, adj)
+    addEdge(1, 3, adj)
+    addEdge(1, 4, adj)
+    addEdge(2, 5, adj)
+    addEdge(2, 6, adj)
+    addEdge(4, 7, adj)
 
-# Printing the degrees of each node
-print("The degrees of each node are:")
-printDegrees(Root, adj)
+    print(adj)
+    # Printing the parents of each node
+    print("The parents of each node are:")
+    printParents(Root, adj, 0)
+
+    # Printing the children of each node
+    print("The children of each node are:")
+    printChildren(Root, adj)
+
+    # Printing the leaf nodes in the tree
+    print("The leaf nodes of the tree are:")
+    printLeafNodes(Root, adj)
+
+    # Printing the degrees of each node
+    print("The degrees of each node are:")
+    printDegrees(Root, adj)
