@@ -16,9 +16,12 @@
 
 # Queue (thread-safe FIFO using queue.Queue)
 
-```from queue import Queue
+```
+from queue import Queue
 
-q = Queue(maxsize=0)   # 0 or less → infinite size```
+q = Queue(maxsize=0)   # 0 or less → infinite size
+```
+
 
 | Method/Operation                        | What it does                                               | Example                              | Special errors / corner cases                                                                               |
 | --------------------------------------- | ---------------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
