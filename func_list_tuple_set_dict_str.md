@@ -45,6 +45,105 @@
 | `t1 == t2`, `t1 < t2`        | Lexicographic comparison.                          | `(1,2) < (1,3) → True`      | Comparisons across incompatible element types can raise `TypeError`.                                |
 | Immutability operations      | You **cannot** assign or delete items.             | `t[0] = 10`                 | `TypeError: 'tuple' object does not support item assignment`; same for `del t[0]`.                  |
 
+# String – methods & common operations
+## Core transformation & formatting
+| Method                                        | What it does                                | Example                                            | Special errors / corner cases                                                                                                                |
+| --------------------------------------------- | ------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `s.capitalize()`                              | First char uppercase, rest lowercase.       | `"hello world".capitalize()` → `'Hello world'`     | –                                                                                                                                            |
+| `s.casefold()`                                | Lowercase aggressively (for comparisons).   | `"ß".casefold()` → `'ss'`                          | –                                                                                                                                            |
+| `s.center(width, fillchar=' ')`               | Pad both sides to given width.              | `"hi".center(6, "-")` → `'--hi--'`                 | `TypeError` if `width` not int / `fillchar` not 1-char str.                                                                                  |
+| `s.encode(encoding='utf-8', errors='strict')` | Encode to bytes.                            | `"hi".encode("utf-8")` → `b'hi'`                   | `LookupError` if encoding unknown; `UnicodeEncodeError` if chars can’t be encoded and `errors='strict'`.                                     |
+| `s.expandtabs(tabsize=8)`                     | Replace `\t` with spaces.                   | `"a\tb".expandtabs(4)` → `'a   b'`                 | `TypeError` if `tabsize` not int.                                                                                                            |
+| `s.format(*args, **kwargs)`                   | Advanced formatting with `{}` placeholders. | `"Hi {}".format("Bob")` → `'Hi Bob'`               | `IndexError` (positional index out of range), `KeyError` (missing named key), `ValueError` (bad format spec), `TypeError` (wrong arg types). |
+| `s.format_map(mapping)`                       | Like `format`, but uses mapping directly.   | `"{x} {y}".format_map({"x": 1, "y": 2})` → `'1 2'` | `KeyError` if key missing; `ValueError` / `TypeError` similar to `format`.                                                                   |
+| `s.lower()`                                   | Return lowercase copy.                      | `"Hi".lower()` → `'hi'`                            | –                                                                                                                                            |
+| `s.swapcase()`                                | Swap case of each letter.                   | `"Hi".swapcase()` → `'hI'`                         | –                                                                                                                                            |
+| `s.title()`                                   | Title-case (`Each Word Like This`).         | `"hello world".title()` → `'Hello World'`          | –                                                                                                                                            |
+| `s.upper()`                                   | Return uppercase copy.                      | `"hi".upper()` → `'HI'`                            | –                                                                                                                                            |
+| `s.zfill(width)`                              | Pad on the left with zeros.                 | `"42".zfill(5)` → `'00042'`                        | `TypeError` if `width` not int.                                                                                                              |
+
+## Stripping and padding
+
+Let t = " hi ".
+
+| Method                         | What it does                                   | Example                          | Special errors                                              |
+| ------------------------------ | ---------------------------------------------- | -------------------------------- | ----------------------------------------------------------- |
+| `s.ljust(width, fillchar=' ')` | Pad on right (left-justify).                   | `"hi".ljust(5, ".")` → `'hi...'` | `TypeError` if `width` not int / `fillchar` not 1-char str. |
+| `s.rjust(width, fillchar=' ')` | Pad on left (right-justify).                   | `"hi".rjust(5, ".")` → `'...hi'` | Same as `ljust`.                                            |
+| `s.lstrip([chars])`            | Remove leading whitespace or given chars.      | `t.lstrip()` → `'hi  '`          | `TypeError` if `chars` not str/None.                        |
+| `s.rstrip([chars])`            | Remove trailing whitespace or chars.           | `t.rstrip()` → `'   hi'`         | Same.                                                       |
+| `s.strip([chars])`             | Remove leading & trailing whitespace or chars. | `t.strip()` → `'hi'`             | Same.                                                       |
+
+## Searching & counting
+
+Let s = "hello world".
+
+| Method                                 | What it does                           | Example                             | Special errors                                                     |
+| -------------------------------------- | -------------------------------------- | ----------------------------------- | ------------------------------------------------------------------ |
+| `s.count(sub[, start[, end]])`         | Count occurrences of substring.        | `"hello".count("l")` → `2`          | – (empty `sub` is allowed).                                        |
+| `s.find(sub[, start[, end]])`          | First index of `sub` or `-1`.          | `"hello".find("l")` → `2`           | – (never raises on “not found”).                                   |
+| `s.rfind(sub[, start[, end]])`         | Last index of `sub` or `-1`.           | `"abcabc".rfind("abc")` → `3`       | –                                                                  |
+| `s.index(sub[, start[, end]])`         | Like `find`, but raises if not found.  | `"hello".index("e")` → `1`          | `ValueError` if `sub` not found.                                   |
+| `s.rindex(sub[, start[, end]])`        | Like `rfind`, but raises if not found. | `"abcabc".rindex("abc")` → `3`      | `ValueError` if `sub` not found.                                   |
+| `s.startswith(prefix[, start[, end]])` | Test prefix.                           | `"hello".startswith("he")` → `True` | `TypeError` if prefix is wrong type (must be str or tuple of str). |
+| `s.endswith(suffix[, start[, end]])`   | Test suffix.                           | `"hello".endswith("lo")` → `True`   | Same as `startswith`.                                              |
+
+## Splitting & joining
+
+| Method                            | What it does                                | Example                                       | Special errors                                                                                                              |
+| --------------------------------- | ------------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `s.split(sep=None, maxsplit=-1)`  | Split into list from the left.              | `"a,b,c".split(",")` → `['a','b','c']`        | `TypeError` if `sep` not str/None or `maxsplit` not int.                                                                    |
+| `s.rsplit(sep=None, maxsplit=-1)` | Split into list from the right.             | `"a,b,c".rsplit(",", 1)` → `['a,b','c']`      | Same.                                                                                                                       |
+| `s.splitlines(keepends=False)`    | Split at line boundaries.                   | `"a\nb".splitlines()` → `['a','b']`           | `TypeError` if `keepends` not bool.                                                                                         |
+| `s.partition(sep)`                | 3-tuple `(head, sep, tail)` at first `sep`. | `"a b c".partition(" ")` → `('a',' ','b c')`  | – (never raises; if not found, returns `(s, '', '')`).                                                                      |
+| `s.rpartition(sep)`               | 3-tuple at last `sep`.                      | `"a b c".rpartition(" ")` → `('a b',' ','c')` | Same behavior for “not found”.                                                                                              |
+| `sep.join(iterable)`              | Join strings with separator.                | `",".join(["a","b","c"])` → `'a,b,c'`         | `TypeError` if any element of iterable is not str (or convertible through `__str__` is *not* used; must actually be `str`). |
+
+## Character classification (is* methods)
+
+Return True or False only; they don’t raise exceptions unless the string object itself is invalid (which won’t happen in normal code).
+
+Let s = "abc123".
+
+| Method             | What it checks                                      | Example                            |
+| ------------------ | --------------------------------------------------- | ---------------------------------- |
+| `s.isalnum()`      | All chars alphanumeric, string not empty.           | `"abc123".isalnum()` → `True`      |
+| `s.isalpha()`      | All chars alphabetic, not empty.                    | `"abc".isalpha()` → `True`         |
+| `s.isascii()`      | All chars ASCII.                                    | `"abc".isascii()` → `True`         |
+| `s.isdecimal()`    | All chars are decimal digits.                       | `"123".isdecimal()` → `True`       |
+| `s.isdigit()`      | All chars are digits (includes superscripts etc.).  | `"²3".isdigit()` → `True`          |
+| `s.isidentifier()` | Valid Python identifier.                            | `"my_var".isidentifier()` → `True` |
+| `s.islower()`      | At least one cased char, all cased chars lowercase. | `"abc".islower()` → `True`         |
+| `s.isnumeric()`    | All chars numeric (includes fractions, etc.).       | `"¾".isnumeric()` → `True`         |
+| `s.isprintable()`  | All chars printable or string empty.                | `"abc\n".isprintable()` → `False`  |
+| `s.isspace()`      | All chars whitespace, not empty.                    | `"   ".isspace()` → `True`         |
+| `s.istitle()`      | Titlecase (`Each Word Like This`).                  | `"Hello World".istitle()` → `True` |
+| `s.isupper()`      | At least one cased char, all cased chars uppercase. | `"ABC".isupper()` → `True`         |
+
+Note: These never raise errors for “content” (e.g. weird Unicode) – they just return True/False
+
+## Prefix / suffix helpers (Python 3.9+)
+
+| Method                   | What it does              | Example                                          | Special errors                   |
+| ------------------------ | ------------------------- | ------------------------------------------------ | -------------------------------- |
+| `s.removeprefix(prefix)` | Remove prefix if present. | `"HelloWorld".removeprefix("Hello")` → `'World'` | `TypeError` if `prefix` not str. |
+| `s.removesuffix(suffix)` | Remove suffix if present. | `"HelloWorld".removesuffix("World")` → `'Hello'` | Same.                            |
+
+## Translation / replacement
+
+| Method                             | What it does                                         | Example                                               | Special errors / corner cases                                                                                                     |
+| ---------------------------------- | ---------------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `s.replace(old, new[, count])`     | Replace `old` with `new` (optionally limit `count`). | `"aabb".replace("a","x")` → `'xxbb'`                  | `TypeError` if `old`/`new` not str or `count` not int.                                                                            |
+| `str.maketrans(x, y=None, z=None)` | Build translation table for `translate()`.           | `tbl = str.maketrans("ab","xy")`                      | `ValueError` if `x` and `y` have different lengths; `TypeError` for invalid types (e.g. non-str keys that can’t be converted).    |
+| `s.translate(table)`               | Map chars via translation table.                     | `"abc".translate(str.maketrans("ab","xy"))` → `'xyc'` | `TypeError` if `table` isn’t a mapping/sequence with `__getitem__`; `ValueError` if mapping gives codepoint out of Unicode range. |
+
+## Miscellaneous
+
+| Method             | What it does                                   | Example | Special errors |
+| ------------------ | ---------------------------------------------- | ------- | -------------- |
+| `s.join(iterable)` | Already covered above under splitting/joining. | –       | –              |
+| `s.encode(...)`    | Already covered above.                         | –       | –              |
+
 # set – methods & common operations
 
 | Method/Operation                                  | What it does                                | Example                                               | Special errors / corner cases                                                                                              |      |                                                 |                                                                  |
@@ -100,6 +199,44 @@
 | `for k, v in d.items():`                         | Iterate over key–value pairs.                                      | `for k, v in d.items(): ...`                 | Same order as keys.                                                                                                  |
 | `len(d)`                                         | Number of key–value pairs.                                         | `len({"a":1,"b":2}) → 2`                     | –                                                                                                                    |
 | Equality: `d1 == d2`                             | Dicts equal if they have same keys with equal values.              | `{"a":1,"b":2} == {"b":2,"a":1}` → `True`    | Order doesn’t matter; comparisons like `<`, `>` are not supported (`TypeError`).                                     |
+
+# defaultdict (from collections) d = defaultdict(int)  default 0
+
+Like dict, but missing keys are automatically initialized with a default value produced by a factory function.
+
+| Method/Operation                                      | What it does                                                                                | Example                                                            | Special errors / corner cases                                                                                  |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `defaultdict(default_factory[, mapping_or_iterable])` | Create a defaultdict with a factory function.                                               | `defaultdict(list)`                                                | `default_factory` is often `list`, `int`, `set`, etc.; can be `None`.                                          |
+| `dd.default_factory` (attribute)                      | The factory function used for new keys.                                                     | `dd.default_factory  # int`                                        | Can be reassigned; if `None`, missing key access raises `KeyError` like normal dict.                           |
+| `dd[key]`                                             | Get value; if key missing, create new `default_factory()` value and insert it.              | `dd['x'].append(1)` when `dd` is `defaultdict(list)` → `{'x':[1]}` | If `default_factory` is `None`, missing key → `KeyError`. If factory call raises error, that error propagates. |
+| `dd.get(key[, default])`                              | Like dict `.get` (does **not** call default_factory).                                       | `dd.get('x', 0)`                                                   | No side effect: does not add `'x'` to dict.                                                                    |
+| `dd.setdefault(key[, default])`                       | If key exists, return its value; else set it to `default` and return.                       | `dd.setdefault('x', []).append(1)`                                 | Here, `default` is used instead of `default_factory` for that key.                                             |
+| Standard dict methods                                 | `keys()`, `values()`, `items()`, `update()`, `pop()`, `popitem()`, `clear()`, `copy()` etc. | `dd.update({'a':1})`                                               | Behave as in `dict`.                                                                                           |
+| Iteration `for k in dd:`                              | Iterate over keys.                                                                          | `for k, v in dd.items(): ...`                                      | Only sees keys that actually exist (i.e. have been accessed or set).                                           |
+| `len(dd)`                                             | Number of stored keys.                                                                      | `len(dd)`                                                          | Doesn’t count “implicit” keys you haven’t touched.                                                             |
+| `key in dd`                                           | Check if key exists (not triggering default_factory).                                       | `'x' in dd`                                                        | Safe; doesn’t add key or call factory.                                                                         |
+
+# OrderedDict (from collections)
+
+Dict subclass that preserves insertion order and adds order-related methods.
+(Note: regular dict now also preserves insertion order since Python 3.7, but OrderedDict has some extra features.)
+
+od = OrderedDict([('a', 1), ('b', 2)])
+
+| Method/Operation                   | What it does                                                                       | Example                                                                             | Special errors / corner cases                                    |
+| ---------------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `OrderedDict()`                    | Create empty ordered dict.                                                         | `od = OrderedDict()`                                                                | –                                                                |
+| `OrderedDict(iterable_or_mapping)` | Create ordered dict, respecting the order of input.                                | `OrderedDict([('a',1), ('b',2)])`                                                   | If from regular dict in 3.7+, it follows dict’s insertion order. |
+| `od[key] = value`                  | Insert or overwrite key while preserving order.                                    | `od['c'] = 3`                                                                       | Updating an existing key does **not** change its position.       |
+| `del od[key]`                      | Remove key–value pair.                                                             | `del od['a']`                                                                       | `KeyError` if key not present.                                   |
+| `od.move_to_end(key, last=True)`   | Move an existing key to either end; `last=True` → right end, `False` → left end.   | `od.move_to_end('a')`                                                               | `KeyError` if key not present.                                   |
+| `od.popitem(last=True)`            | Remove and return last item if `last=True`, first item if `False`.                 | `k, v = od.popitem()`                                                               | `KeyError` if dict empty.                                        |
+| `reversed(od)`                     | Iterate over keys in reverse insertion order.                                      | `for k in reversed(od): ...`                                                        | Implemented via `__reversed__`.                                  |
+| Equality `od1 == od2`              | In Python 3.7+, equality ignores order; only compares as regular mapping.          | `OrderedDict([('a',1),('b',2)]) == OrderedDict([('b',2),('a',1)])` → `True` in 3.7+ | Earlier versions (<3.7) considered order in equality.            |
+| Standard dict methods              | `keys()`, `values()`, `items()`, `get()`, `update()`, `setdefault()`, `pop()` etc. | `od.items()`                                                                        | Preserve insertion order in iteration.                           |
+| Iteration `for k in od:`           | Iterate over keys in insertion order (after moves).                                | `for k, v in od.items(): ...`                                                       | Order affected by `move_to_end`, insertions, deletions.          |
+| `len(od)`                          | Number of key–value pairs.                                                         | `len(od)`                                                                           | –                                                                |
+| `key in od`                        | Membership on keys.                                                                | `'a' in od`                                                                         | –                                                                |
 
 # array (from array module)
 
@@ -184,40 +321,3 @@ Groups multiple dicts (or mappings) into a single “view”; lookups search the
 | Iteration `for k in cm:`                    | Iterate over keys.                                                 | `for k in cm:`                   | Order is based on chain order; duplicates removed.                  |
 | Update via `cm.update(mapping_or_iterable)` | Update only the **first** mapping.                                 | `cm.update({'a': 99, 'z': 1})`   | Later maps unaffected.                                              |
 
-# defaultdict (from collections) d = defaultdict(int)  default 0
-
-Like dict, but missing keys are automatically initialized with a default value produced by a factory function.
-
-| Method/Operation                                      | What it does                                                                                | Example                                                            | Special errors / corner cases                                                                                  |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `defaultdict(default_factory[, mapping_or_iterable])` | Create a defaultdict with a factory function.                                               | `defaultdict(list)`                                                | `default_factory` is often `list`, `int`, `set`, etc.; can be `None`.                                          |
-| `dd.default_factory` (attribute)                      | The factory function used for new keys.                                                     | `dd.default_factory  # int`                                        | Can be reassigned; if `None`, missing key access raises `KeyError` like normal dict.                           |
-| `dd[key]`                                             | Get value; if key missing, create new `default_factory()` value and insert it.              | `dd['x'].append(1)` when `dd` is `defaultdict(list)` → `{'x':[1]}` | If `default_factory` is `None`, missing key → `KeyError`. If factory call raises error, that error propagates. |
-| `dd.get(key[, default])`                              | Like dict `.get` (does **not** call default_factory).                                       | `dd.get('x', 0)`                                                   | No side effect: does not add `'x'` to dict.                                                                    |
-| `dd.setdefault(key[, default])`                       | If key exists, return its value; else set it to `default` and return.                       | `dd.setdefault('x', []).append(1)`                                 | Here, `default` is used instead of `default_factory` for that key.                                             |
-| Standard dict methods                                 | `keys()`, `values()`, `items()`, `update()`, `pop()`, `popitem()`, `clear()`, `copy()` etc. | `dd.update({'a':1})`                                               | Behave as in `dict`.                                                                                           |
-| Iteration `for k in dd:`                              | Iterate over keys.                                                                          | `for k, v in dd.items(): ...`                                      | Only sees keys that actually exist (i.e. have been accessed or set).                                           |
-| `len(dd)`                                             | Number of stored keys.                                                                      | `len(dd)`                                                          | Doesn’t count “implicit” keys you haven’t touched.                                                             |
-| `key in dd`                                           | Check if key exists (not triggering default_factory).                                       | `'x' in dd`                                                        | Safe; doesn’t add key or call factory.                                                                         |
-
-# OrderedDict (from collections)
-
-Dict subclass that preserves insertion order and adds order-related methods.
-(Note: regular dict now also preserves insertion order since Python 3.7, but OrderedDict has some extra features.)
-
-od = OrderedDict([('a', 1), ('b', 2)])
-
-| Method/Operation                   | What it does                                                                       | Example                                                                             | Special errors / corner cases                                    |
-| ---------------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `OrderedDict()`                    | Create empty ordered dict.                                                         | `od = OrderedDict()`                                                                | –                                                                |
-| `OrderedDict(iterable_or_mapping)` | Create ordered dict, respecting the order of input.                                | `OrderedDict([('a',1), ('b',2)])`                                                   | If from regular dict in 3.7+, it follows dict’s insertion order. |
-| `od[key] = value`                  | Insert or overwrite key while preserving order.                                    | `od['c'] = 3`                                                                       | Updating an existing key does **not** change its position.       |
-| `del od[key]`                      | Remove key–value pair.                                                             | `del od['a']`                                                                       | `KeyError` if key not present.                                   |
-| `od.move_to_end(key, last=True)`   | Move an existing key to either end; `last=True` → right end, `False` → left end.   | `od.move_to_end('a')`                                                               | `KeyError` if key not present.                                   |
-| `od.popitem(last=True)`            | Remove and return last item if `last=True`, first item if `False`.                 | `k, v = od.popitem()`                                                               | `KeyError` if dict empty.                                        |
-| `reversed(od)`                     | Iterate over keys in reverse insertion order.                                      | `for k in reversed(od): ...`                                                        | Implemented via `__reversed__`.                                  |
-| Equality `od1 == od2`              | In Python 3.7+, equality ignores order; only compares as regular mapping.          | `OrderedDict([('a',1),('b',2)]) == OrderedDict([('b',2),('a',1)])` → `True` in 3.7+ | Earlier versions (<3.7) considered order in equality.            |
-| Standard dict methods              | `keys()`, `values()`, `items()`, `get()`, `update()`, `setdefault()`, `pop()` etc. | `od.items()`                                                                        | Preserve insertion order in iteration.                           |
-| Iteration `for k in od:`           | Iterate over keys in insertion order (after moves).                                | `for k, v in od.items(): ...`                                                       | Order affected by `move_to_end`, insertions, deletions.          |
-| `len(od)`                          | Number of key–value pairs.                                                         | `len(od)`                                                                           | –                                                                |
-| `key in od`                        | Membership on keys.                                                                | `'a' in od`                                                                         | –                                                                |
