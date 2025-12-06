@@ -1,7 +1,5 @@
-Love how deep you’re going with this 😄
-Let’s push into **advanced / “power user” Python for DSA** and only add things we *haven’t* really covered yet.
 
-I’ll group them by *what they help you with*:
+# TABLE OF CONTENTS
 
 1. **Speed & memory hacks**
 2. **Better control over recursion, errors, and I/O**
@@ -9,7 +7,7 @@ I’ll group them by *what they help you with*:
 4. **Standard-library tools for variations of common DS**
 5. **3rd-party “serious mode” helpers (if allowed)**
 
-I’ll keep each item short with why it’s useful in DSA.
+
 
 ---
 
