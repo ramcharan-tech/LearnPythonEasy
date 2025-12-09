@@ -1,6 +1,6 @@
 # list are mutable,ordered, dynamic size, different types can be stored
 x = [1,2,3]
-y =x[:] #copy
+y =x[:] #shallow copy
 z=x #ref
 x[0]='hello'
 print(x,y,z)
@@ -17,7 +17,7 @@ print(4 in x)
 print(x)
 print(x.index(4)) #may get error
 print(x.count(4)) # count a given element
-print(x.index(4,0,4))
+print(x.index(4,0,4)) # will get error if 4 is not in the first 3 elements (4,0,3)
 
 x.remove(4) #may get error # to remove an element 4
 print(x.pop()) # pop(1)
