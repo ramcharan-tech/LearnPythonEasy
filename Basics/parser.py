@@ -1,4 +1,3 @@
-import sys
 import argparse
 
 parser=argparse.ArgumentParser(description='My First Program')
