@@ -40,11 +40,6 @@ def dfsrec(adj, node, visited, res):
             dfsrec(adj, i, visited, res)
     return res
 
-def dfs_recursive(adj):
-    src, V, res= 0, len(adj), []
-    visited = [False] * V
-    res = dfsrec(adj, src, visited, res)
-    print(res)
 
 def addEdge(adj, u, v):
     adj[u].append(v)
