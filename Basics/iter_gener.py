@@ -7,18 +7,22 @@ class PowerTwoIterator:
         return self
 
     def __next__(self):
-        # 1. Manual check for stopping
         if self.current > self.max:
             raise StopIteration
-        
-        # 2. Calculate result
         result = 2 ** self.current
-        
-        # 3. Manually update state for next time
+
         self.current += 1
         return result
 
-# Usage
 iter_obj = PowerTwoIterator(3)
 print(next(iter_obj)) # 1
 print(next(iter_obj)) # 2
+
+def power_two_generator(max_power):
+    current = 0
+    while current <= max_power:
+        yield 2 ** current
+        current += 1
+gen_obj = power_two_generator(3)
+print(next(gen_obj))
+print(next(gen_obj))

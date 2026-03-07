@@ -47,3 +47,13 @@ Never gonna let you down
 8. Heap: A heap is a collection of elements that are unordered, mutable, and follow a specific ordering principle. Heaps are not indexed but are iterable. They are created using the heapq module 
 9.  Linked List: A linked list is a collection of elements that are ordered, mutable, and can contain duplicate elements. Linked lists are not indexed but are iterable. They are created using the LinkedList() constructor from the collections module 
 10. String: funcitons--> upper,lower,partition(returns tuple),replace,find,rstrip,split,startwith,isnumeric,index,rindex
+
+## Largest Negative Integer declaration
+
+- float('-inf') or -math.inf or  -sys.maxsize - 1 or  -10**1000
+- reduce function --> reduce(lambda c,a : c if c > a else a, arr)
+
+## Generator vs Iterator
+
+- Every generator is an iterator
+- next func with generator for search next((i for i, ele in enumerate(arr) if ele == x), -1)
