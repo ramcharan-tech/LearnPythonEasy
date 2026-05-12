@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(grep -r \"python_requires\\\\|version\\\\|Programming Language\" /mnt/c/devwork/github/LearnPythonEasy --include=*.py --include=*.toml --include=*.cfg --include=setup.py)"
+    ]
+  }
+}
