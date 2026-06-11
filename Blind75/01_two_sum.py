@@ -1,4 +1,4 @@
-# File: /Blind75/Blind75/problems/01_two_sum.py
+# File: /Blind75/01_two_sum.py
 
 """
 Problem Statement:
